@@ -26,13 +26,21 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    //await client.connect();
     
     const reviewCollection =client.db("linguaDb").collection("reviews");
-
+    const topClassesCollection = client.db("linguaDb").collection("topClasses")
+// reviews
     app.get('/reviews', async(req,res)=>{
         const result = await reviewCollection.find().toArray();
         res.send(result);
+    })
+  //top classes
+    app.get('/topclasses',async(req,res)=>{
+      // res.send('hello topclass')
+      const result =await topClassesCollection.find().toArray();
+      
+      res.send(result)
     })
 
     // having problem with https://lingua-viva-server.vercel.app/reviews
