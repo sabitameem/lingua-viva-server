@@ -31,7 +31,7 @@ async function run() {
     const reviewCollection =client.db("linguaDb").collection("reviews");
     const topClassesCollection = client.db("linguaDb").collection("topClasses")
     const instructorsCollection = client.db("linguaDb").collection("instructors");
-    
+
 // reviews
     app.get('/reviews', async(req,res)=>{
         const result = await reviewCollection.find().toArray();
@@ -42,6 +42,13 @@ async function run() {
       // res.send('hello topclass')
       const result =await topClassesCollection.find().toArray();
       
+      res.send(result)
+    })
+
+    //instructors
+    app.get('/instructors',async(req,res)=>{
+      // res.send('instructors')
+      const result = await instructorsCollection.find().toArray();
       res.send(result)
     })
 
