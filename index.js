@@ -31,6 +31,7 @@ async function run() {
     const reviewCollection =client.db("linguaDb").collection("reviews");
     const topClassesCollection = client.db("linguaDb").collection("topClasses")
     const instructorsCollection = client.db("linguaDb").collection("instructors");
+    // this route is for selected classes that user selected
     const selectedClassCollection = client.db("linguaDb").collection("classes");
 
 // reviews
@@ -54,6 +55,19 @@ async function run() {
     })
 
     //selected-classes
+    app.get('/classes', async (req, res) => {
+      const email = req.query.email;
+
+      if (!email) {
+        res.send([]);
+      }
+      const query = { email: email };
+      const result = await selectedClassCollection.find(query).toArray();
+      res.send(result);
+    });
+
+
+
     app.post('/classes', async (req, res) => {
       const classCard = req.body;
       console.log(classCard);
