@@ -31,6 +31,7 @@ async function run() {
     const reviewCollection =client.db("linguaDb").collection("reviews");
     const topClassesCollection = client.db("linguaDb").collection("topClasses")
     const instructorsCollection = client.db("linguaDb").collection("instructors");
+    const selectedClassCollection = client.db("linguaDb").collection("classes");
 
 // reviews
     app.get('/reviews', async(req,res)=>{
@@ -52,7 +53,16 @@ async function run() {
       res.send(result)
     })
 
+    //selected-classes
+    app.post('/classes', async (req, res) => {
+      const classCard = req.body;
+      console.log(classCard);
+      const result = await selectedClassCollection.insertOne(classCard);
+      res.send(result);
+    })
+
     // having problem with https://lingua-viva-server.vercel.app/reviews
+    // it was network issue
 
 
 
