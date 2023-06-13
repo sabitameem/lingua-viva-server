@@ -262,14 +262,9 @@ async function run() {
     //const deleteResult =await selectedClassCollection.deleteOne(query);
 
     // payment related api
-    app.get('/payments',verifyJWT, async(req,res)=>{
-      // const email =req.query.email;
-      // if(!email){
-      //   return res.send({message:'Email not found'})
-      // }
-      // const query = {email:email}
-      // const result =await paymentCollection.find(query).sort({date:1}).toArray()
-      // res.send(result)
+    app.get('/payments', async(req,res)=>{
+      
+
       const result =await paymentCollection.find().toArray()
       res.send(result)
     })
