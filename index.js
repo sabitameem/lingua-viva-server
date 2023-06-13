@@ -54,12 +54,14 @@ async function run() {
       .collection("instructors");
     // this route is for selected classes that user selected
     const selectedClassCollection = client.db("linguaDb").collection("classes");
+    const paymentCollection = client.db("linguaDb").collection("payments");
+    
 
     //jwt
     app.post("/jwt", (req, res) => {
       const user = req.body;
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1h",
+        expiresIn: '1hr',
       });
       res.send({ token });
     });
@@ -225,6 +227,56 @@ async function run() {
         clientSecret: paymentIntent.client_secret
       })
     });
+
+    // app.post('/payments', async(req,res)=>{
+    //   const payment=req.body;
+    //   const insertResult = await paymentCollection.insertOne(payment)
+
+    //  const query ={_id:{$in: payment?.selectedClassId.map(id=> new ObjectId(id))}}
+    //  const deleteResult =await selectedClassCollection.deleteOne(query)
+
+    //  const updateFilter ={
+    //   _id :{$in: payment?.classId.map((id)=>new ObjectId(id))}
+    //  }
+
+    //  const updateDoc ={
+    //   $inc: {
+    //     available_seats:-1
+    //   }
+    //  }
+
+    //  const options ={upsert : false}
+    //  const updateResult =await topClassesCollection.updateMany(
+    //   updateFilter,
+    //   updateDoc,
+    //   options
+    //  )
+
+    //   res.send({insertResult,deleteResult})
+
+    // })
+
+    
+
+
+        // payment related api
+        app.post('/payments', verifyJWT, async (req, res) => {
+          const payment = req.body;
+          const insertResult = await paymentCollection.insertOne(payment);
+
+
+      //     const id = req.params.id;
+      // const query = { _id: new ObjectId(id) };
+      // const result = await selectedClassCollection.deleteOne(query);
+           //const query={_id:{$in: payment.selectedClassId.map(id => new ObjectId(id))}}
+           //const deleteResult =await selectedClassCollection.deleteOne(query);
+
+          res.send(insertResult);
+
+        })
+
+
+
 
     // having problem with https://lingua-viva-server.vercel.app/reviews
     // it was network issue
