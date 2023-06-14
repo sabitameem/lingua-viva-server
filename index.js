@@ -262,10 +262,13 @@ async function run() {
     //const deleteResult =await selectedClassCollection.deleteOne(query);
 
     // payment related api
-    app.get('/payments', async(req,res)=>{
+    app.get('/payments/:email', async(req,res)=>{
+      const email = req.params.email;
+      const query = {email: email}
+      
       
 
-      const result =await paymentCollection.find().toArray()
+      const result =await paymentCollection.find(query).toArray()
       res.send(result)
     })
 
